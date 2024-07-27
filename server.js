@@ -52,3 +52,27 @@
 // //     console.log(`Server running on http://localhost:${PORT}`);
 // // });
 // c
+
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+
+// Create an instance of Express
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Define a route to serve the content of the data.txt file
+app.get('/', (req, res) => {
+  fs.readFile(path.join(__dirname, 'data.txt'), 'utf8', (err, data) => {
+    if (err) {
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.send(data);
+    }
+  });
+});
+
+// Start the server and listen on the specified port
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
